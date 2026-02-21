@@ -1,0 +1,18 @@
+# Ignore node_modules, build outputs, and OS files
+node_modules/
+dist/
+build/
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+.env
+.env.*
+# Ignore Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+# Ignore VS Code settings
+.vscode/
