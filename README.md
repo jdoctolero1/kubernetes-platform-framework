@@ -6,10 +6,12 @@ This project provides a framework for building, deploying, and managing a Kubern
 This project is under construction. Please be patient.
 
 ## Cloud Providers
-Azure build is currently in progress
+![Azure Resources Diagram](./docs/diagrams/azure-resources.png)
 
-## Features
-- Modular architecture for platform components
+<sub>Note: The VNets and subnets are assumed to already exist and are not provisioned by this IaC project.</sub>
+
+## Operating System Support
+This project supports **Ubuntu** as the operating system for both Kubernetes control plane and worker node virtual machines. Other operating systems are not currently supported.
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
