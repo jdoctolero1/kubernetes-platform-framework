@@ -8,8 +8,6 @@ This project is under construction. Please be patient.
 ## Cloud Providers
 Azure build is currently in progress
 
-There are plans to add AWS in here at a later date.
-
 ## Features
 - Modular architecture for platform components
 
