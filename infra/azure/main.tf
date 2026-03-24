@@ -26,7 +26,7 @@ module "kcp_vm" {
 module "kwn_vm" {
   source              = "./modules/vm"
   count               = length(var.kwn_vm_ips)
-  vm_name             = "vm-${var.environment}-kwn-${var.location}-${count.index + 1}"
+  vm_name             = "vm-${var.environment}-kwn-${var.location}-0${count.index + 1}"
   resource_group_name = module.kubernetes_rg.name
   location            = var.location
   subnet_id           = data.azurerm_subnet.subnet_app.id
