@@ -1,0 +1,12 @@
+---
+# roles/kube_worker_join/tasks/main.yml
+- name: Check whether this node is already joined
+  ansible.builtin.stat:
+    path: /etc/kubernetes/kubelet.conf
+  register: kubelet_conf
+
+- name: Join node to cluster
+  ansible.builtin.command: "{{ hostvars[groups['kubernetes_admin'][0]].worker_join_command }}"
+  args:
+    creates: /etc/kubernetes/kubelet.conf
+  when: not kubelet_conf.stat.exists

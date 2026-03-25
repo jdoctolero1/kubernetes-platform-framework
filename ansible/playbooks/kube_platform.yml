@@ -1,0 +1,27 @@
+---
+# playbooks/tasks/kube_platform.yml
+- name: Setup Kubernetes Baseline
+  hosts: all 
+  become: yes
+  roles:
+    - { role: ../roles/kube_base, tags: [kubenetes_base] }
+
+- name: Setup Kubernetes Control Plane
+  hosts: kubernetes_admin
+  become: yes
+  roles:
+    - { role: ../roles/kube_controlplane, tags: [kube_controlplane] }
+
+- name: Generate kubeadm join command
+  hosts: kubernetes_admin[0]
+  become: true
+  gather_facts: false
+  roles:
+    - { role: ../roles/kube_joincmd_build, tags: [kube_joincmd_build] }
+
+- name: Join Kubernetes workers
+  hosts: kubernetes_worker 
+  become: true
+  gather_facts: false
+  roles:
+    - { role: ../roles/kube_worker_join, tags: [kube_worker_join] }

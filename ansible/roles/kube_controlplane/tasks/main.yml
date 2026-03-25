@@ -1,0 +1,48 @@
+---
+# roles/kube_controlplane/tasks/main.yml
+    - name: Install kubectl
+      apt:
+        update_cache: yes
+        name:
+          - kubectl
+        state: present
+
+    - name: Hold kubectl packages
+      ansible.builtin.dpkg_selections:
+        name: "kubectl"
+        selection: hold
+
+    - name: Initialize Kubernetes control plane
+      command: >
+        kubeadm init
+        --apiserver-advertise-address={{ ansible_default_ipv4.address }}
+        --pod-network-cidr={{ pod_network_cidr }}
+      args:
+        creates: /etc/kubernetes/admin.conf
+
+    - name: Create .kube directory for user
+      file:
+        path: /home/{{ ansible_user }}/.kube
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: 0755
+
+    - name: Copy kubeconfig for user
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /home/{{ ansible_user }}/.kube/config
+        remote_src: yes
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: 0644
+
+    - name: Install Calico CNI
+      command: >
+        kubectl apply -f {{ calico_yaml_url }}
+      environment:
+        KUBECONFIG: "/etc/kubernetes/admin.conf"
+      register: calico_result
+      until: calico_result.rc == 0
+      retries: 5
+      delay: 15
