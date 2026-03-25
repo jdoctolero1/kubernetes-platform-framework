@@ -1,0 +1,6 @@
+---
+kubernetes_version_number: "1.30"
+pod_network_cidr: "192.168.0.0/16" # Calico default
+apt_keyring_url: "https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version_number }}/deb/Release.key"
+kubernetes_repo_url: "https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version_number }}/deb/"
+calico_yaml_url: "https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/calico.yaml"
