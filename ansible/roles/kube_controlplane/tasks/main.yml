@@ -22,19 +22,19 @@
 
     - name: Create .kube directory for user
       file:
-        path: /home/{{ ansible_user }}/.kube
+        path: /home/{{ kubernetes_admin_user }}/.kube
         state: directory
-        owner: "{{ ansible_user }}"
-        group: "{{ ansible_user }}"
+        owner: "{{ kubernetes_admin_user }}"
+        group: "{{ kubernetes_admin_user }}"
         mode: 0755
 
     - name: Copy kubeconfig for user
       copy:
         src: /etc/kubernetes/admin.conf
-        dest: /home/{{ ansible_user }}/.kube/config
+        dest: /home/{{ kubernetes_admin_user }}/.kube/config
         remote_src: yes
-        owner: "{{ ansible_user }}"
-        group: "{{ ansible_user }}"
+        owner: "{{ kubernetes_admin_user }}"
+        group: "{{ kubernetes_admin_user }}"
         mode: 0644
 
     - name: Install Calico CNI
