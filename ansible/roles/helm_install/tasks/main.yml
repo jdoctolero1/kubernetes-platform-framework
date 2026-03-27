@@ -1,0 +1,21 @@
+---
+# roles/helm_install/tasks/main.yml
+- name: Add Helm APT keyring
+  shell: |
+    curl -fsSL {{ helm_keyring_url }} \
+    | gpg --dearmor | sudo tee /etc/apt/keyrings/helm.gpg > /dev/null
+  args:
+    creates: /etc/apt/keyrings/helm.gpg
+
+- name: Add Helm APT repository
+  copy:
+    dest: /etc/apt/sources.list.d/helm.list
+    content: |
+      deb [signed-by=/etc/apt/keyrings/helm.gpg] {{ helm_repo_url }} any main"  /
+
+- name: Install Helm
+  apt:
+    update_cache: yes
+    name:
+      - helm
+    state: present

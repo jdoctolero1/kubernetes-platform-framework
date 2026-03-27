@@ -25,3 +25,10 @@
   gather_facts: false
   roles:
     - { role: ../roles/kube_worker_join, tags: [kube_worker_join] }
+
+- name: Install Helm
+  hosts: kubernetes_admin 
+  become: true
+  gather_facts: false
+  roles:
+    - { role: ../roles/helm_install, tags: [helm_install] }
