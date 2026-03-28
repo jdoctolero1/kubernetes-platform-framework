@@ -6,13 +6,21 @@
     dest: "/tmp/calico.yaml"
     mode: '0744'
 
-- name: Set CALICO_IPV4POOL_IPIP to Always in calico.yaml
+- name: Set CALICO_IPV4POOL_VXLAN to Always in calico.yaml using yq
   ansible.builtin.command: >
-    sed -i 's/\(- name: CALICO_IPV4POOL_IPIP\s*value: "\)1Always"/\Never"/' /tmp/calico.yaml
-
-- name: Set CALICO_IPV4POOL_VXLAN to Always in calico.yaml
+    yq -i '
+      (.spec.template.spec.containers[].env[]
+        | select(.name == "CALICO_IPV4POOL_VXLAN")
+        | .value) = "Always"
+    ' /tmp/calico.yaml
+    
+- name: Set CALICO_IPV4POOL_IPIP to Never in calico.yaml using yq
   ansible.builtin.command: >
-    sed -i 's/\(- name: CALICO_IPV4POOL_VXLAN\s*value: "\)Never"/\1Always"/' /tmp/calico.yaml
+    yq -i '
+      (.spec.template.spec.containers[].env[]
+        | select(.name == "CALICO_IPV4POOL_IPIP")
+        | .value) = "Never"
+    ' /tmp/calico.yaml
 
 - name: Install Calico CNI
   command: >

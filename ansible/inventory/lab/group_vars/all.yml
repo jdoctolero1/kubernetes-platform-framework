@@ -7,3 +7,4 @@ kubernetes_repo_url: "https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version_n
 helm_keyring_url: "https://packages.buildkite.com/helm-linux/helm-debian/gpgkey"
 helm_repo_url: "https://packages.buildkite.com/helm-linux/helm-debian/any/"
 calico_yaml_url: "https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/calico.yaml"
+yq_repo_url: "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64"

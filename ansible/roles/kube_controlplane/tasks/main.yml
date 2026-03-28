@@ -12,6 +12,12 @@
     name: "kubectl"
     selection: hold
 
+- name: Install yq binary
+  get_url:
+    url: {{ yq_repo_url }}
+    dest: /usr/local/bin/yq
+    mode: '0755'
+
 - name: Initialize Kubernetes control plane
   command: >
     kubeadm init
