@@ -11,8 +11,7 @@
   copy:
     dest: /etc/apt/sources.list.d/helm.list
     content: |
-      deb [signed-by=/etc/apt/keyrings/helm.gpg] {{ helm_repo_url }} any main"  /
-
+      deb [signed-by=/etc/apt/keyrings/helm.gpg] {{ helm_repo_url }} any main
 - name: Install Helm
   apt:
     update_cache: yes
