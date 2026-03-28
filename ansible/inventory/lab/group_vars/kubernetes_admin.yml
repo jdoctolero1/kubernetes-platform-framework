@@ -1,0 +1,2 @@
+ngnix_gateway_crds_url: "https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/standard-install.yaml"
+nginx_gateway_helm_url: "oci://ghcr.io/nginx/charts/nginx-gateway-fabric"

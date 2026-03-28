@@ -1,0 +1,15 @@
+---
+# roles/nginx_gateway_install/tasks/main.yml
+- name: Apply Gateway API standard installation manifest
+  ansible.builtin.command: >
+    kubectl apply -f {{ ngnix_gateway_crds_url }}
+  register: gateway_api_apply
+  changed_when: "'created' in gateway_api_apply.stdout or 'configured' in gateway_api_apply.stdout"
+  failed_when: gateway_api_apply.rc != 0
+
+- name: Install nginx-gateway using Helm
+  ansible.builtin.command: >
+    helm install nginx-gateway {{ nginx_gateway_helm_url }} -n nginx-gateway --create-namespace
+  register: nginx_gateway_helm_install
+  changed_when: "'STATUS: deployed' in nginx_gateway_helm_install.stdout"
+  failed_when: nginx_gateway_helm_install.rc != 0
