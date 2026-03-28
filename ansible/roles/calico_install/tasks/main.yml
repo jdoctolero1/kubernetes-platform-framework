@@ -1,0 +1,25 @@
+---
+# roles/calico_install/tasks/main.yml
+- name: Download Calico YAML file locally
+  ansible.builtin.get_url:
+    url: "{{ calico_yaml_url }}"
+    dest: "/tmp/calico.yaml"
+    mode: '0744'
+
+- name: Set CALICO_IPV4POOL_IPIP to Always in calico.yaml
+  ansible.builtin.command: >
+    sed -i 's/\(- name: CALICO_IPV4POOL_IPIP\s*value: "\)1Always"/\Never"/' /tmp/calico.yaml
+
+- name: Set CALICO_IPV4POOL_VXLAN to Always in calico.yaml
+  ansible.builtin.command: >
+    sed -i 's/\(- name: CALICO_IPV4POOL_VXLAN\s*value: "\)Never"/\1Always"/' /tmp/calico.yaml
+
+- name: Install Calico CNI
+  command: >
+    kubectl apply -f /tmp/calico.yaml
+  environment:
+    KUBECONFIG: "/etc/kubernetes/admin.conf"
+  register: calico_result
+  until: calico_result.rc == 0
+  retries: 5
+  delay: 15

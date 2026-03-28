@@ -12,6 +12,20 @@
   roles:
     - { role: ../roles/kube_controlplane, tags: [kube_controlplane] }
 
+- name: Install Helm
+  hosts: kubernetes_admin 
+  become: true
+  gather_facts: false
+  roles:
+    - { role: ../roles/helm_install, tags: [helm_install] }
+
+- name: Install Calico CNI
+  hosts: kubernetes_admin[0] 
+  become: true
+  gather_facts: false
+  roles:
+    - { role: ../roles/calico_install, tags: [calico_install] }
+
 - name: Generate kubeadm join command
   hosts: kubernetes_admin[0]
   become: true
@@ -25,10 +39,3 @@
   gather_facts: false
   roles:
     - { role: ../roles/kube_worker_join, tags: [kube_worker_join] }
-
-- name: Install Helm
-  hosts: kubernetes_admin 
-  become: true
-  gather_facts: false
-  roles:
-    - { role: ../roles/helm_install, tags: [helm_install] }
