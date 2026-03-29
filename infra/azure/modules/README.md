@@ -16,21 +16,7 @@ module "rg" {
 }
 ```
 
-### 2. Network Security Group (`nsg`)
-Creates and manages Azure Network Security Groups to allow network communication between the Kubernetes control plane and worker nodes.
-
-**Usage:**
-```hcl
-module "nsg" {
-    source              = "./nsg"
-    name                = "example-nsg"
-    resource_group_name = module.rg.name
-    location            = module.rg.location
-    security_rules      = []
-}
-```
-
-### 3. Virtual Machine (`vm`)
+### 2. Virtual Machine (`vm`)
 Deploys Azure Virtual Machines which will host Kubernetes
 
 **Usage:**
