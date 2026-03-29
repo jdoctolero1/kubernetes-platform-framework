@@ -40,6 +40,5 @@
 
 - name: Install nginx gateway class
   hosts: kubernetes_admin[0] 
-  become: true
   roles:
     - { role: ../roles/ngnix_gateway_install, tags: [ngnix_gateway_install] }
