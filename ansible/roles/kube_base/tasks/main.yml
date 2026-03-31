@@ -16,6 +16,7 @@
       - ca-certificates
       - curl
       - gpg
+      - conntrack
     state: present
 
 - name: Load kernel modules

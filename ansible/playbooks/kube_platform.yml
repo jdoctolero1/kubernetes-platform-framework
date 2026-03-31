@@ -1,5 +1,5 @@
 ---
-# playbooks/tasks/kube_platform.yml
+# playbooks/kube_platform.yml
 - name: Setup Kubernetes Baseline
   hosts: all 
   become: yes
