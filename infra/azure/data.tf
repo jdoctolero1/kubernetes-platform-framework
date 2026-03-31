@@ -4,6 +4,12 @@ data "azurerm_subnet" "subnet_admin" {
   resource_group_name  = "rg-${var.environment}-network-${var.location}"
 }
 
+data "azurerm_subnet" "subnet_app_gateway" {
+  name                 = "subnet-${var.environment}-app-gateway"
+  virtual_network_name = "vnet-${var.environment}-${var.location}"
+  resource_group_name  = "rg-${var.environment}-network-${var.location}"
+}
+
 data "azurerm_subnet" "subnet_app" {
   name                 = "subnet-${var.environment}-app"
   virtual_network_name = "vnet-${var.environment}-${var.location}"

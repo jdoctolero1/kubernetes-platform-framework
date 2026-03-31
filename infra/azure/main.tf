@@ -40,3 +40,26 @@ module "kwn_vm" {
   image_version       = var.kwn_image_version
   tags                = var.tags
 }
+
+module "pip" {
+  source              = "./modules/pip"
+  public_ip_name      = "pip-${var.environment}-kube-${var.location}-01"
+  resource_group_name = module.kubernetes_rg.name
+  location            = var.location
+  tags                = var.tags
+}
+
+module "agw" {
+  source              = "./modules/agw"
+  agw_name            = "agw-${var.environment}-kube-${var.location}-01"
+  resource_group_name = module.kubernetes_rg.name
+  location            = var.location
+  subnet_id           = data.azurerm_subnet.subnet_app_gateway.id
+  public_ip_id        = module.pip.id
+  tags                = var.tags
+  sku_name            = "Basic"
+  sku_tier            = "Basic"
+  frontend_port       = 80
+  backend_port        = 30007
+  backend_ip_addresses = var.kwn_vm_ips
+}
