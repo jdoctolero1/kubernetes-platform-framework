@@ -1,0 +1,40 @@
+---
+# roles/cilium_install/tasks/main.yaml
+- name: Add Cilium Helm repository
+  command: helm repo add cilium {{ cilium_helm_repo }}
+  become: yes
+  become_user: "{{ kubernetes_admin_user }}"
+  environment:
+    KUBECONFIG: "/home/{{ kubernetes_admin_user }}/.kube/config"
+
+- name: Update Helm repositories
+  command: helm repo update
+  become: yes
+  become_user: "{{ kubernetes_admin_user }}"
+  environment:
+    KUBECONFIG: "/home/{{ kubernetes_admin_user }}/.kube/config"
+
+- name: Install Cilium via Helm
+  command: >
+    helm install cilium cilium/cilium
+    --version {{ cilium_version }}
+    --namespace kube-system
+  become: yes
+  become_user: "{{ kubernetes_admin_user }}"
+  environment:
+    KUBECONFIG: "/home/{{ kubernetes_admin_user }}/.kube/config"
+  register: cilium_install_result
+  failed_when: >
+    cilium_install_result.rc != 0 and
+    'cannot re-use a name that is still in use' not in cilium_install_result.stderr
+
+- name: Wait for Cilium pods to be ready
+  command: kubectl rollout status daemonset/cilium -n kube-system --timeout=120s
+  become: yes
+  become_user: "{{ kubernetes_admin_user }}"
+  environment:
+    KUBECONFIG: "/home/{{ kubernetes_admin_user }}/.kube/config"
+  register: cilium_ready
+  until: cilium_ready.rc == 0
+  retries: 5
+  delay: 20

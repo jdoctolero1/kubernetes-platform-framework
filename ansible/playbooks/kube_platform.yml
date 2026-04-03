@@ -23,6 +23,14 @@
   become: true
   roles:
     - { role: ../roles/calico_install, tags: [calico_install] }
+  when: cni_provider == "calico"
+
+- name: Install Cilium CNI
+  hosts: kubernetes_admin[0] 
+  become: true
+  roles:
+    - { role: ../roles/cilium_install, tags: [cilium_install] }
+  when: cni_provider == "cilium"
 
 - name: Generate kubeadm join command
   hosts: kubernetes_admin[0]
