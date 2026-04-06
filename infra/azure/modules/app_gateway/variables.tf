@@ -70,3 +70,15 @@ variable "tags" {
 	type        = map(string)
 	default     = {}
 }
+
+variable "ssl_secret_id" {
+	description = "Secret resource id for the SSL Certificate to use"
+	type        = string
+	default     = null 
+}
+
+variable "user_assigned_identity_id" {
+	description = "User assigned identity ID for the Application Gateway"
+	type        = string
+	default     = null
+}

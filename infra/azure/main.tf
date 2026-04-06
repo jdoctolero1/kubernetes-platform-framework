@@ -62,4 +62,15 @@ module "kube_agw" {
   frontend_port       = 80
   backend_port        = 30007
   backend_ip_addresses = var.kwn_vm_ips
+  ssl_secret_id        = data.azurerm_key_vault_certificate.certificate.secret_id
+  user_assigned_identity_id = data.azurerm_user_assigned_identity.appgw_managedid.id
+}
+
+module "kube_dns_a_record" {
+  source                       = "./modules/public_dns"
+  dns_zone_name                = data.azurerm_dns_zone.public_dns_zone.name
+  dns_zone_resource_group_name = var.dns_zone_resource_group_name
+  record_name                  = var.dns_record_name
+  ip_addresses                 = [module.kube_pip.ip_address]
+  tags                         = local.merged_tags
 }

@@ -87,3 +87,23 @@ variable "kwn_image_version" {
   description = "Image version for worker nodes"
   default     = "latest"
 }
+
+variable "dns_zone_name" {
+  type        = string
+  description = "The name of the public DNS zone (e.g. example.com)"
+}
+
+variable "dns_zone_resource_group_name" {
+  type        = string
+  description = "The resource group where the public DNS zone lives"
+}
+
+variable "dns_record_name" {
+  type        = string
+  description = "The A record name to create in the DNS zone"
+}
+
+variable "cert_name" {
+  type        = string
+  description = "The name of the SSL certificate in key vault"
+}

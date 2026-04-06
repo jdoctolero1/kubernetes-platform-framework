@@ -48,6 +48,35 @@ resource "azurerm_application_gateway" "app_gw" {
 		backend_http_settings_name = local.backend_http_settings_name
         priority = 9
 	}
+	ssl_certificate {
+        name                = local.ssl_certificate_name
+        key_vault_secret_id = var.ssl_secret_id
+    }
+	http_listener {
+		name                           = local.https_listener_name
+		frontend_ip_configuration_name = local.frontend_ip_configuration_name
+		frontend_port_name             = local.frontend_port_https_name
+		protocol                       = "Https"
+		ssl_certificate_name           = local.ssl_certificate_name
+	}
+	frontend_port {
+		name = local.frontend_port_https_name
+		port = 443
+	}
+
+	request_routing_rule {
+		name                       = local.request_routing_rule_https_name
+		rule_type                  = "Basic"
+		http_listener_name         = local.https_listener_name
+		backend_address_pool_name  = local.backend_address_pool_name
+		backend_http_settings_name = local.backend_http_settings_name
+		priority                   = 10
+	}
 
 	tags = var.tags
+
+	identity {
+	  type = "UserAssigned"
+	  identity_ids = [var.user_assigned_identity_id]
+	}
 }
