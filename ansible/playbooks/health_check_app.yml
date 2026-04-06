@@ -1,0 +1,6 @@
+---
+# playbooks/health_check_app.yml
+- name: Setup Kubernetes Control Plane
+  hosts: kubernetes_admin[0]
+    roles:
+     - { role: ../roles/healthcheck_deploy, tags: [healthcheck_deploy] }

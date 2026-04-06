@@ -1,0 +1,10 @@
+---
+- name: Copy healthcheck.yaml file
+  copy:
+    src: healthcheck.yaml
+    dest: /tmp/healthcheck.yaml
+  register: healthcheck_copy
+
+- name: Apply healthcheck.yaml with kubectl
+  shell: kubectl apply -f /tmp/healthcheck.yaml
+  when: healthcheck_copy is succeeded
