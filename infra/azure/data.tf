@@ -1,31 +1,31 @@
 data "azurerm_resource_group" "network_rg" {
-  name = "rg-${var.environment}-network-${var.location}"
+  name = local.network_resource_group
 }
 
 data "azurerm_subnet" "subnet_admin" {
-  name                 = "subnet-${var.environment}-admin"
-  virtual_network_name = "vnet-${var.environment}-${var.location}"
-  resource_group_name  = "rg-${var.environment}-network-${var.location}"
+  name                 = local.subnet_admin_name
+  virtual_network_name = local.vnet_name
+  resource_group_name  = local.network_resource_group
 }
 
 data "azurerm_subnet" "subnet_app_gateway" {
-  name                 = "subnet-${var.environment}-app-gateway"
-  virtual_network_name = "vnet-${var.environment}-${var.location}"
-  resource_group_name  = "rg-${var.environment}-network-${var.location}"
+  name                 = local.subnet_appgw_name
+  virtual_network_name = local.vnet_name
+  resource_group_name  = local.network_resource_group
 }
 
 data "azurerm_subnet" "subnet_app" {
-  name                 = "subnet-${var.environment}-app"
-  virtual_network_name = "vnet-${var.environment}-${var.location}"
-  resource_group_name  = "rg-${var.environment}-network-${var.location}"
+  name                 = local.subnet_app_name
+  virtual_network_name = local.vnet_name
+  resource_group_name  = local.network_resource_group
 }
 
 data "azurerm_resource_group" "keyvault_rg" {
-  name = "rg-${var.environment}-keyvault-${var.location}"
+  name = local.keyvault_resource_group
 }
 
 data "azurerm_key_vault" "keyvault" {
-  name                = "kvlabcentralus01"
+  name                = var.key_vault_name
   resource_group_name = data.azurerm_resource_group.keyvault_rg.name
 }
 
@@ -35,8 +35,8 @@ data "azurerm_key_vault_certificate" "certificate" {
 }
 
 data "azurerm_user_assigned_identity" "appgw_managedid" {
-  name                = "managedid-lab-appgw-centralus"
-  resource_group_name = "rg-lab-admin-centralus"
+  name                = var.agw_managedid_name
+  resource_group_name = var.managedid_resource_group
 }
 
 data "azurerm_dns_zone" "public_dns_zone" {

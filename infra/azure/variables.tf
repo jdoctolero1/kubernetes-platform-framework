@@ -107,3 +107,18 @@ variable "cert_name" {
   type        = string
   description = "The name of the SSL certificate in key vault"
 }
+
+variable "key_vault_name" {
+  type        = string
+  description = "The name of the key vault that contains the SSL certificate"
+}
+
+variable "agw_managedid_name" {
+  type        = string
+  description = "The name of the managed identity used by the Application Gateway"
+}
+
+variable "managedid_resource_group" {
+  type        = string
+  description = "The resource group that contains managed identity"
+}
