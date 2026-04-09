@@ -1,7 +1,7 @@
 locals {
   gateway_ip_configuration_name   = "${var.agw_name}-gwipcfg"
   backend_address_pool_name       = "${var.agw_name}-beap"
-  frontend_port_name              = "${var.agw_name}-feport"
+  frontend_http_port_name         = "${var.agw_name}-feport"
   frontend_port_https_name        = "${var.agw_name}-httpsport"
   frontend_ip_configuration_name  = "${var.agw_name}-feip"
   backend_http_settings_name      = "${var.agw_name}-be-sett"

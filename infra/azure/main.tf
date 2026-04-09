@@ -59,7 +59,6 @@ module "kube_agw" {
   tags                = var.tags
   sku_name            = "Basic"
   sku_tier            = "Basic"
-  frontend_port       = 80
   backend_port        = 30007
   backend_ip_addresses = var.kwn_vm_ips
   ssl_secret_id        = data.azurerm_key_vault_certificate.certificate.secret_id

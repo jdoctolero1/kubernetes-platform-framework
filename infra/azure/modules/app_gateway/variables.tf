@@ -36,7 +36,7 @@ variable "subnet_id" {
 	type        = string
 }
 
-variable "frontend_port" {
+variable "frontend_http_port" {
 	description = "Frontend port number"
 	type        = number
 	default     = 80

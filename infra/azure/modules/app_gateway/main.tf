@@ -13,8 +13,8 @@ resource "azurerm_application_gateway" "app_gw" {
 		subnet_id = var.subnet_id
 	}
 	frontend_port {
-		name = local.frontend_port_name
-		port = var.frontend_port
+		name = local.frontend_http_port_name
+		port = var.frontend_http_port
 	}
 	frontend_ip_configuration {
 		name                 = local.frontend_ip_configuration_name
@@ -34,7 +34,7 @@ resource "azurerm_application_gateway" "app_gw" {
 	http_listener {
 		name                           = local.http_listener_name
 		frontend_ip_configuration_name = local.frontend_ip_configuration_name
-		frontend_port_name             = local.frontend_port_name
+		frontend_port_name             = local.frontend_http_port_name
 		protocol                       = "Http"
 	}
 	redirect_configuration {
