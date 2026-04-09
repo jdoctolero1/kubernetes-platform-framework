@@ -4,7 +4,7 @@
   hosts: all 
   become: yes
   roles:
-    - { role: ../roles/kube_base, tags: [kubenetes_base] }
+    - { role: ../roles/kube_base, tags: [kube_base] }
 
 - name: Initialize Kubernetes Control Plane
   hosts: kubernetes_admin[0]
