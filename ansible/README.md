@@ -24,7 +24,7 @@ ansible-playbook ./playbooks/healthcheck_app.yml -i ./inventory/lab
 ```
 
 ## CNI Selection
-The Ansible group var **cni_provider** controls which CNI is installed. You have a choice between the values calico or cilium. This group var should be specified in the kubernetes_admin.yml group vars.
+The Ansible group var **cni_provider** controls which CNI is installed. You have a choice between the values `calico` or `cilium`. This group var should be specified in the kubernetes_admin.yml group vars.
 
 ```sh
 cni_provider: "cilium" #values can be calico or cilium
