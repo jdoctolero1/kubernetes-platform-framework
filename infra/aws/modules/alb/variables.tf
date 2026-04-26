@@ -103,8 +103,8 @@ variable "listener_protocol" {
 
 variable "listener_ssl_policy" {
   type        = string
-  description = "SSL policy for HTTPS listeners"
-  default     = "ELBSecurityPolicy-2016-08"
+  description = "SSL policy for HTTPS listeners (see https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies)"
+  default     = "ELBSecurityPolicy-TLS13-1-2-2021-06"
 }
 
 variable "listener_certificate_arn" {
