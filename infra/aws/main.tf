@@ -1,5 +1,5 @@
 module "vm" {
-  source = "./modules/ec2_instance"
+  source = "./modules/ec2"
 
   name                        = var.vm_name
   ami                         = var.vm_ami
