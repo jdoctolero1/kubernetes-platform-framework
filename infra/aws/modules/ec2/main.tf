@@ -7,12 +7,13 @@ resource "aws_instance" "this" {
   iam_instance_profile        = var.iam_instance_profile
   associate_public_ip_address = var.associate_public_ip_address
   user_data                   = var.user_data
-
-  root_block_device {
-    volume_size = var.root_volume_size
-    volume_type = var.root_volume_type
-    encrypted   = var.root_volume_encrypted
-  }
+  private_ip                  = var.private_ip
+  
+  # root_block_device {
+  #   volume_size = var.root_volume_size
+  #   volume_type = var.root_volume_type
+  #   encrypted   = var.root_volume_encrypted
+  # }
 
   tags = merge(var.tags, {
     Name = var.name
