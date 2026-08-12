@@ -42,7 +42,12 @@ module "ec2_control_plane" {
   # root_volume_size            = var.vm_root_volume_size
   # root_volume_type            = var.vm_root_volume_type
   # root_volume_encrypted       = var.vm_root_volume_encrypted
-  # user_data                   = var.vm_user_data
+  user_data                   = templatefile("${path.module}/modules/user_data/ec2-kube-cp-ubuntu.yaml", {
+    hostname                = local.kube_cp_name
+    domain                  = var.private_zone_name
+    kube_admin_username     = var.kube_admin_username
+    kube_authorized_keys    = var.kube_authorized_keys
+  })
 
   tags = local.tags
 }

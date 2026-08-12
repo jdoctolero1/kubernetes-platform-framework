@@ -53,6 +53,24 @@ variable "key_name" {
   description = "Name of the EC2 key pair to use for SSH access"
 }
 
+variable "kube_admin_username" {
+  type        = string
+  description = "Username to create via cloud-init on the Kubernetes control plane instance"
+  default     = "labadm"
+}
+
+variable "kube_authorized_keys" {
+  type        = list(string)
+  description = "SSH public keys to add to the labadm user's authorized_keys"
+  default     = []
+}
+
+variable "private_zone_name" {
+  type        = string
+  description = "Domain suffix used when rendering cloud-init hostnames"
+  default     = "localdomain"
+}
+
 variable "vm_associate_public_ip_address" {
   type        = bool
   description = "Whether to associate a public IP with the EC2 instance"
