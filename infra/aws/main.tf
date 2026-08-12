@@ -51,3 +51,11 @@ module "ec2_control_plane" {
 
   tags = local.tags
 }
+
+module "route53_a_record" {
+  source = "./modules/route53_a_record"
+
+  zone_id      = data.aws_route53_zone.private.zone_id
+  record_name  = local.kube_cp_name
+  private_ip   = module.ec2_control_plane.private_ip
+}

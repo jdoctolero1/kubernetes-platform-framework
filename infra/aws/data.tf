@@ -33,3 +33,8 @@ data "aws_ami" "ubuntu" {
     values = ["hvm"]
   }
 }
+
+data "aws_route53_zone" "private" {
+  name         = var.private_zone_name
+  private_zone = true
+}
