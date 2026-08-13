@@ -32,6 +32,13 @@ module "ec2_worker_nodes" {
   key_name                    = var.key_name
   associate_public_ip_address = var.vm_associate_public_ip_address
 
+  user_data                   = templatefile("${path.module}/modules/user_data/ec2-kube-cp-ubuntu.yaml", {
+    hostname                = local.kube_cp_name
+    domain                  = var.private_zone_name
+    kube_admin_username     = var.kube_admin_username
+    kube_authorized_keys    = var.kube_authorized_keys
+  })
+
   tags = local.tags
 }
 
