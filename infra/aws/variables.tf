@@ -76,3 +76,8 @@ variable "vm_associate_public_ip_address" {
   description = "Whether to associate a public IP with the EC2 instance"
   default     = false
 }
+
+variable "kube_wn_private_ips" {
+  description = "Private IP addresses for Kubernetes worker nodes"
+  type        = list(string)
+}
