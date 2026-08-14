@@ -58,3 +58,37 @@ module "route53_worker_a_record" {
   record_name  = "ec2-${var.environment}-kwn-${var.region_short}-${format("%02d", count.index + 1)}"
   private_ip   = module.ec2_worker_nodes[count.index].private_ip
 }
+
+module "alb_kubernetes" {
+  source = "./modules/alb"
+
+  name               = "alb-${var.environment}-kube-${var.region_short}-01"
+  internal           = false
+  security_group_ids = [module.security_group_app_lb.id]
+  subnet_ids         = [data.aws_subnet.web_subnet_01.id, data.aws_subnet.web_subnet_02.id]
+  vpc_id             = data.aws_vpc.main.id
+
+  target_group_name = "tg-${var.environment}-kube-nodeport-${var.region_short}"
+  target_type       = "instance"
+  target_port       = 30007
+  target_protocol   = "HTTP"
+
+  listener_port     = 80
+  listener_protocol = "HTTP"
+
+  health_check_path      = "/"
+  health_check_interval  = 30
+  health_check_timeout   = 5
+  healthy_threshold      = 3
+  unhealthy_threshold    = 3
+
+  tags = local.tags
+}
+
+resource "aws_lb_target_group_attachment" "worker_nodes" {
+  count            = length(var.kube_wn_private_ips)
+  target_group_arn = module.alb_kubernetes.target_group_arn
+  target_id        = module.ec2_worker_nodes[count.index].id
+  port             = 30007
+}
+

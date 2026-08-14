@@ -28,6 +28,16 @@ variable "subnet_app_name" {
   type        = string
 }
 
+variable "subnet_web_name_01" {
+  description = "Web Subnet 01"
+  type        = string
+}
+
+variable "subnet_web_name_02" {
+  description = "Web Subnet 02"
+  type        = string
+}
+
 variable "kube_cp_private_ip" {
   description = "Private IP address to assign to the Kubernetes Control Plane ec2 instance"
   type        = string

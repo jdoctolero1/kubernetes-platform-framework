@@ -19,6 +19,20 @@ data "aws_subnet" "app_subnet" {
   }
 }
 
+data "aws_subnet" "web_subnet_01" {
+  filter {
+    name   = "tag:Name"
+    values = [var.subnet_web_name_01]
+  }
+}
+
+data "aws_subnet" "web_subnet_02" {
+  filter {
+    name   = "tag:Name"
+    values = [var.subnet_web_name_02]
+  }
+}
+
 data "aws_ami" "ubuntu" {
   most_recent = true
   owners      = ["099720109477"]  # Canonical
