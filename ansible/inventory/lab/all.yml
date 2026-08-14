@@ -1,9 +1,10 @@
 all:
   children:
-    kubernetes_admin:
-      hosts:
-        vm-lab-kcp-centralus-01:
-    kubernetes_worker:
-      hosts:
-        vm-lab-kwn-centralus-01:
-        vm-lab-kwn-centralus-02:
+    aws:
+      children:
+        kubernetes_admin:
+        kubernetes_worker:
+    azure:
+      children:
+        kubernetes_admin:
+        kubernetes_worker:
