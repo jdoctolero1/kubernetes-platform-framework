@@ -144,6 +144,13 @@ module "security_group_worker_nodes" {
       cidr_blocks = [data.aws_subnet.admin_subnet.cidr_block, data.aws_subnet.app_subnet.cidr_block]
     },
     {
+      description = "Allow NodePort from Application Load Balancer"
+      from_port   = 30000
+      to_port     = 32767
+      protocol    = "tcp"
+      security_groups = [module.security_group_app_lb.id]
+    },
+    {
       description = "Allow Calico BGP"
       from_port   = 179
       to_port     = 179
@@ -187,3 +194,43 @@ module "security_group_worker_nodes" {
     Name = local.security_group_worker_node_name
   })
 }
+
+module "security_group_app_lb" {
+  source = "./modules/security_group"
+
+  name        = local.security_group_app_lb_name
+  description = local.security_group_app_lb_description
+  vpc_id      = data.aws_vpc.main.id
+
+  ingress_rules = [
+    {
+      description = "Allow HTTP"
+      from_port   = 80
+      to_port     = 80
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    },
+    {
+      description = "Allow HTTPS"
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+
+  egress_rules = [
+    {
+      description = "Allow all outbound traffic"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+
+  tags = merge(local.tags, {
+    Name = local.security_group_app_lb_name
+  })
+}
+
