@@ -85,6 +85,16 @@ module "security_group_control_plane" {
     }
   ]
 
+  egress_rules = [
+    {
+      description = "Allow all outbound traffic"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+
   tags = merge(local.tags, {
     Name = local.security_group_control_plane_name
   })
@@ -160,6 +170,16 @@ module "security_group_worker_nodes" {
       to_port     = 4240
       protocol    = "tcp"
       cidr_blocks = [data.aws_subnet.admin_subnet.cidr_block, data.aws_subnet.app_subnet.cidr_block]
+    }
+  ]
+
+  egress_rules = [
+    {
+      description = "Allow all outbound traffic"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
     }
   ]
 
