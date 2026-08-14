@@ -33,7 +33,7 @@ module "ec2_worker_nodes" {
   associate_public_ip_address = var.vm_associate_public_ip_address
 
   user_data                   = templatefile("${path.module}/modules/user_data/ec2-kube-cp-ubuntu.yaml", {
-    hostname                = local.kube_cp_name
+    hostname                = "ec2-${var.environment}-kwn-${var.region_short}-${format("%02d", count.index + 1)}"
     domain                  = var.private_zone_name
     kube_admin_username     = var.kube_admin_username
     kube_authorized_keys    = var.kube_authorized_keys
@@ -48,4 +48,13 @@ module "route53_a_record" {
   zone_id      = data.aws_route53_zone.private.zone_id
   record_name  = local.kube_cp_name
   private_ip   = module.ec2_control_plane.private_ip
+}
+
+module "route53_worker_a_record" {
+  source = "./modules/route53_a_record"
+  count  = length(var.kube_wn_private_ips)
+
+  zone_id      = data.aws_route53_zone.private.zone_id
+  record_name  = "ec2-${var.environment}-kwn-${var.region_short}-${format("%02d", count.index + 1)}"
+  private_ip   = module.ec2_worker_nodes[count.index].private_ip
 }
