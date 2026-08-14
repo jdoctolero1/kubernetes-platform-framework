@@ -1,0 +1,8 @@
+aws:
+  children:
+    kubernetes_admin:
+      hosts:
+        ec2-lab-kcp-ue1-01:
+    kubernetes_worker:
+      hosts:
+        ec2-lab-kwn-ue1-01:
