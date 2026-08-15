@@ -1,5 +1,5 @@
 # Kubernetes Cloud Infrastructure
-This directory contains the infrastructure build for Azure. There are future plans to add AWS as a cloud provider.
+This directory contains the infrastructure build for Azure or AWS.
 
 ## Usage
 Run your Terraform commands from the cloud provider directory.

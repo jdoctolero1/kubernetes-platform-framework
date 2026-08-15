@@ -3,24 +3,36 @@ This repository provides an Ansible framework for deploying a Kubernetes cluster
 
 ## Usage
 
-**Customize Inventory:**
+### Customize Inventory:
 
 Create a custom environment in `./inventory` to define your target hosts and groups. The environment *lab* is provided with sample servers and group vars.
 
-**Run Playbooks:**
+### Run Playbooks:
 
-Run the kube_platform.yml playbook from the root `./ansible` directory to build the Kubernetes cluster components. For example:
+Run the kube_platform.yml playbook from the root `./ansible` directory to build the Kubernetes cluster components.
 
+**Deploying on Azure**
 ```sh
-ansible-playbook ./playbooks/kube_platform.yml -i ./inventory/lab
+ansible-playbook ./playbooks/kube_platform.yml -i ./inventory/lab/azure.yml
 ```
 
-**(Optional) Create a health check deployment**
+**Deploying on AWS**
+```sh
+ansible-playbook ./playbooks/kube_platform.yml -i ./inventory/lab/aws.yml
+```
+
+### (Optional) Create a health check deployment
 
 The included healthcheck_app.yml file will deploy an NGINX pod with a default page that returns `{"status": "ok"}` and a NodePort service that listens on port 30007. 
 
+**Deploying on Azure**
 ```sh
-ansible-playbook ./playbooks/healthcheck_app.yml -i ./inventory/lab
+ansible-playbook ./playbooks/healthcheck_app.yml -i ./inventory/lab/azure.yml
+```
+
+**Deploying on AWS**
+```sh
+ansible-playbook ./playbooks/healthcheck_app.yml -i ./inventory/lab/aws.yml
 ```
 
 ## CNI Selection

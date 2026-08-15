@@ -1,0 +1,21 @@
+#cloud-config
+hostname: ${hostname}
+fqdn: ${hostname}.${domain}
+
+packages:
+  - net-tools
+
+users:
+  - name: ${kube_admin_username}
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    groups: sudo
+%{ if length(kube_authorized_keys) > 0 ~}
+    ssh_authorized_keys:
+%{ for authorized_key in kube_authorized_keys ~}
+      - ${authorized_key}
+%{ endfor ~}
+%{ endif ~}
+runcmd:
+  - apt-get update
+  - apt-get upgrade -y

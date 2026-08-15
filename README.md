@@ -2,10 +2,18 @@
 
 This project provides a framework for building, deploying, and managing a Kubernetes cluster on virtual machines. Included are Terraform files for the infrastructure build and Ansible playbooks to deploy a Kubernetes cluster with a control plane and worker nodes.
 
+## Supported Cloud Platforms
+This framework supports infrastructure provisioning and Kubernetes deployment on both Azure and AWS cloud platforms.
+
 ## Use Case
 Please see the [Case Study](./CASESTUDY.md) for more information on the scenario this project covers.
 
-## Required Components
+## Azure
+![Azure Resources Diagram](./docs/diagrams/azure-resources.png)
+
+<sub>Note: The VNet and subnets are assumed to already exist and are not provisioned by this IaC project.</sub>
+
+### Required Components
 The following Azure resources are required as prerequisites before initiating the Terraform infrastructure build.
 
 - Azure Virtual Network (VNet) and subnets
@@ -13,10 +21,16 @@ The following Azure resources are required as prerequisites before initiating th
 - Azure Key Vault with an existing SSL certificate
 - Azure Managed Identity with Key Vault access
 
-## Cloud Providers
-![Azure Resources Diagram](./docs/diagrams/azure-resources.png)
+## AWS
+![AWS Resources Diagram](./docs/diagrams/aws-resources.png)
 
-<sub>Note: The VNet and subnets are assumed to already exist and are not provisioned by this IaC project.</sub>
+### Required Components
+The following AWS resources are required as prerequisites before initiating the Terraform infrastructure build.
+
+- AWS VPC and subnets
+- Route 53 Public DNS Zone
+- Route 53 Private DNS Zone
+- Existing SSL/TLS certificate in AWS Certificate Manager
 
 ## CNIs Supported
 
