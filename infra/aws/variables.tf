@@ -91,3 +91,14 @@ variable "kube_wn_private_ips" {
   description = "Private IP addresses for Kubernetes worker nodes"
   type        = list(string)
 }
+
+variable "certificate_domain_name" {
+  type        = string
+  description = "Domain name of the ACM certificate to use for HTTPS"
+  default     = ""
+}
+
+variable "public_zone_name" {
+  type        = string
+  description = "Public hosted zone name for Route53"
+}

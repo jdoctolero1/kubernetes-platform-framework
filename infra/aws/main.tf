@@ -92,3 +92,27 @@ resource "aws_lb_target_group_attachment" "worker_nodes" {
   port             = 30007
 }
 
+resource "aws_route53_record" "alb_alias" {
+  zone_id = data.aws_route53_zone.public.zone_id
+  name    = "kube-lab.${var.public_zone_name}"
+  type    = "A"
+
+  alias {
+    name                   = module.alb_kubernetes.alb_dns_name
+    zone_id                = module.alb_kubernetes.alb_zone_id
+    evaluate_target_health = true
+  }
+}
+
+resource "aws_lb_listener" "alb_https" {
+  load_balancer_arn = module.alb_kubernetes.alb_arn
+  port              = 443
+  protocol          = "HTTPS"
+  certificate_arn   = data.aws_acm_certificate.app_cert.arn
+  ssl_policy        = "ELBSecurityPolicy-TLS-1-2-2017-01"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = module.alb_kubernetes.target_group_arn
+  }
+}
