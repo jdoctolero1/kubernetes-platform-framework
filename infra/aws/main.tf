@@ -73,9 +73,6 @@ module "alb_kubernetes" {
   target_port       = 30007
   target_protocol   = "HTTP"
 
-  listener_port     = 80
-  listener_protocol = "HTTP"
-
   health_check_path      = "/"
   health_check_interval  = 30
   health_check_timeout   = 5
@@ -114,5 +111,21 @@ resource "aws_lb_listener" "alb_https" {
   default_action {
     type             = "forward"
     target_group_arn = module.alb_kubernetes.target_group_arn
+  }
+}
+
+resource "aws_lb_listener" "alb_http_redirect" {
+  load_balancer_arn = module.alb_kubernetes.alb_arn
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
   }
 }

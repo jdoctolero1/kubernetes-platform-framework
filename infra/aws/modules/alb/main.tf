@@ -32,16 +32,3 @@ resource "aws_lb_target_group" "this" {
     Name = var.target_group_name
   })
 }
-
-resource "aws_lb_listener" "this" {
-  load_balancer_arn = aws_lb.this.arn
-  port              = var.listener_port
-  protocol          = var.listener_protocol
-  ssl_policy        = var.listener_protocol == "HTTPS" ? var.listener_ssl_policy : null
-  certificate_arn   = var.listener_protocol == "HTTPS" ? var.listener_certificate_arn : null
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.this.arn
-  }
-}

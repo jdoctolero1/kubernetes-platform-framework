@@ -27,8 +27,3 @@ output "target_group_id" {
   description = "The ID of the target group"
   value       = aws_lb_target_group.this.id
 }
-
-output "listener_arn" {
-  description = "The ARN of the ALB listener"
-  value       = aws_lb_listener.this.arn
-}
