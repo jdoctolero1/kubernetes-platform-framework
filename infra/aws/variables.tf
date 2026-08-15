@@ -102,3 +102,9 @@ variable "public_zone_name" {
   type        = string
   description = "Public hosted zone name for Route53"
 }
+
+variable "kube_node_port" {
+  type        = number
+  description = "Kubernetes NodePort for the ALB to target"
+  default     = 30007
+}

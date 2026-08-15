@@ -70,7 +70,7 @@ module "alb_kubernetes" {
 
   target_group_name = "tg-${var.environment}-kube-nodeport-${var.region_short}"
   target_type       = "instance"
-  target_port       = 30007
+  target_port       = var.kube_node_port
   target_protocol   = "HTTP"
 
   health_check_path      = "/"
@@ -86,7 +86,7 @@ resource "aws_lb_target_group_attachment" "worker_nodes" {
   count            = length(var.kube_wn_private_ips)
   target_group_arn = module.alb_kubernetes.target_group_arn
   target_id        = module.ec2_worker_nodes[count.index].id
-  port             = 30007
+  port             = var.kube_node_port
 }
 
 resource "aws_route53_record" "alb_alias" {
