@@ -16,7 +16,7 @@ This directory contains Terraform (`.tf`) files to provision the foundational Az
 ## Required Components
 - The VNet and Subnets that the VMs will reside in are already provisioned.
 - Key vault with an existing SSL certificate.
-- Public DNZ zone to save A record for the Application Gateway's public IP.
+- Public DNS zone to save A record for the Application Gateway's public IP.
 - Managed Identity for the Application Gateway to use in order to access key vault.
 
 ## Terraform Workspaces
