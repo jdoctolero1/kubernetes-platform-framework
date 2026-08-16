@@ -1,5 +1,5 @@
 ---
-kubernetes_version_number: "1.31"
+kubernetes_version_number: "1.36"
 kubernetes_admin_user: labadm
 apt_keyring_url: "https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version_number }}/deb/Release.key"
 kubernetes_repo_url: "https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version_number }}/deb/"
