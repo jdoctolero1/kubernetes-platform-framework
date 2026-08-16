@@ -6,5 +6,6 @@ calico_yaml_url: "https://raw.githubusercontent.com/projectcalico/calico/v{{ cal
 cilium_helm_repo: "https://helm.cilium.io/"
 cilium_version: "1.20.0"
 cni_provider: "cilium" #values can be calico or cilium
-ngnix_gateway_crds_url: "https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/standard-install.yaml"
+nginx_gateway_version: "1.6.0"
+ngnix_gateway_crds_url: "https://github.com/kubernetes-sigs/gateway-api/releases/download/v{{ nginx_gateway_version }}/standard-install.yaml"
 nginx_gateway_helm_url: "oci://ghcr.io/nginx/charts/nginx-gateway-fabric"
