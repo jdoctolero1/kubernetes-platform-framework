@@ -12,18 +12,18 @@ Please see the [Case Study](./CASESTUDY.md) for more information on the scenario
 ![Azure Resources Diagram](./docs/diagrams/azure-resources.png)
 
 ### Required Components
-The following Azure resources are required as prerequisites before initiating the Terraform infrastructure build.
+The following Azure resources are required:
 
 - Azure Virtual Network (VNet) and subnets
 - Azure Public DNS Zone
 - Azure Key Vault with an existing SSL certificate
-- Azure Managed Identity with Key Vault access
+- Azure Managed Identity with Key Vault access for Application Gateway
 
 ## AWS
 ![AWS Resources Diagram](./docs/diagrams/aws-resources.png)
 
 ### Required Components
-The following AWS resources are required as prerequisites before initiating the Terraform infrastructure build.
+The following AWS resources are required:
 
 - AWS VPC and subnets
 - Route 53 Public DNS Zone
