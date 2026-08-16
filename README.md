@@ -11,8 +11,6 @@ Please see the [Case Study](./CASESTUDY.md) for more information on the scenario
 ## Azure
 ![Azure Resources Diagram](./docs/diagrams/azure-resources.png)
 
-<sub>Note: The VNet and subnets are assumed to already exist and are not provisioned by this IaC project.</sub>
-
 ### Required Components
 The following Azure resources are required as prerequisites before initiating the Terraform infrastructure build.
 
