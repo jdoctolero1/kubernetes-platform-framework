@@ -1,0 +1,7 @@
+---
+# playbooks/argocd_install.yml
+# Playbook to install and configure ArgoCD on Kubernetes cluster
+- name: Install ArgoCD
+  hosts: kubernetes_admin[0]
+  roles:
+    - {role: ../roles/argocd_install, tags: [argocd_install]}
