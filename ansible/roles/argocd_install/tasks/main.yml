@@ -1,5 +1,13 @@
 ---
 # roles/argocd_install/tasks/main.yml
+- name: Install pip3
+  apt:
+    update_cache: yes
+    name:
+      - python3-pip
+    state: present
+  become: yes
+
 - name: Install required Python libraries
   pip:
     name:
