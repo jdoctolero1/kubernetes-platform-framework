@@ -6,3 +6,4 @@ aws:
     kubernetes_worker:
       hosts:
         ec2-lab-kwn-ue1-01:
+        ec2-lab-kwn-ue1-02:

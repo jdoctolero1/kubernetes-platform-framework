@@ -1,5 +1,14 @@
 ---
 # roles/argocd_install/tasks/main.yml
+- name: Install required Python libraries
+  pip:
+    name:
+      - kubernetes
+      - PyYAML
+      - jsonpatch
+    state: present
+  become: yes
+
 - name: Create ArgoCD namespace
   kubernetes.core.k8s:
     name: argocd
