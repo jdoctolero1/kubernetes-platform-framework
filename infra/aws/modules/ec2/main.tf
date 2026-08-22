@@ -9,11 +9,11 @@ resource "aws_instance" "this" {
   user_data                   = var.user_data
   private_ip                  = var.private_ip
   
-  # root_block_device {
-  #   volume_size = var.root_volume_size
-  #   volume_type = var.root_volume_type
-  #   encrypted   = var.root_volume_encrypted
-  # }
+  root_block_device {
+    volume_size = var.root_volume_size
+    volume_type = var.root_volume_type
+    encrypted   = var.root_volume_encrypted
+  }
 
   tags = merge(var.tags, {
     Name = var.name

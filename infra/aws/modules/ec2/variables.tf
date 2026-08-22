@@ -48,23 +48,23 @@ variable "associate_public_ip_address" {
   default     = false
 }
 
-# variable "root_volume_size" {
-#   type        = number
-#   description = "Size of the root EBS volume in GiB"
-#   default     = 20
-# }
+variable "root_volume_size" {
+  type        = number
+  description = "Size of the root EBS volume in GiB"
+  default     = 20
+}
 
-# variable "root_volume_type" {
-#   type        = string
-#   description = "Type of the root EBS volume (e.g. gp3, gp2)"
-#   default     = "gp3"
-# }
+variable "root_volume_type" {
+  type        = string
+  description = "Type of the root EBS volume (e.g. gp3, gp2)"
+  default     = "gp3"
+}
 
-# variable "root_volume_encrypted" {
-#   type        = bool
-#   description = "Whether to encrypt the root EBS volume"
-#   default     = true
-# }
+variable "root_volume_encrypted" {
+  type        = bool
+  description = "Whether to encrypt the root EBS volume"
+  default     = true
+}
 
 variable "user_data" {
   type        = string
