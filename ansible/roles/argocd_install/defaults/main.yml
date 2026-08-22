@@ -1,7 +1,7 @@
 ---
 # roles/argocd_install/defaults/main.yml
 # ArgoCD server service type (ClusterIP, NodePort, or LoadBalancer)
-argocd_server_service_type: ClusterIP
+argocd_server_service_type: NodePort
 
 # ArgoCD admin password (leave blank to use auto-generated password)
 # If set, this will be used to configure the admin user

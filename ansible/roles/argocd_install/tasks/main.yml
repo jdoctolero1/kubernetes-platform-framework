@@ -1,76 +1,32 @@
 ---
 # roles/argocd_install/tasks/main.yml
-- name: Install pip3
-  apt:
-    update_cache: yes
-    name:
-      - python3-pip
-    state: present
-  become: yes
-
-- name: Install required Python libraries
-  pip:
-    name:
-      - kubernetes
-      - PyYAML
-      - jsonpatch
-    state: present
-  become: yes
-
 - name: Create ArgoCD namespace
-  kubernetes.core.k8s:
-    name: argocd
-    api_version: v1
-    kind: Namespace
-    state: present
-    kubeconfig: /etc/kubernetes/admin.conf
+  shell: kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  changed_when: false
 
 - name: Add ArgoCD Helm repository
-  kubernetes.core.helm_repository:
-    name: argo
-    repo_url: https://argoproj.github.io/argo-helm
-    state: present
-    kubeconfig: /etc/kubernetes/admin.conf
+  shell: helm repo add argo https://argoproj.github.io/argo-helm && helm repo update
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  changed_when: false
 
 - name: Install ArgoCD using Helm
-  kubernetes.core.helm:
-    name: argocd
-    chart_ref: argo/argo-cd
-    release_namespace: argocd
-    create_namespace: false
-    kubeconfig: /etc/kubernetes/admin.conf
-    values:
-      server:
-        service:
-          type: "{{ argocd_server_service_type | default('ClusterIP') }}"
-      configs:
-        secret:
-          argocdServerAdminPassword: "{{ argocd_admin_password | default('') }}"
-  when: argocd_admin_password is defined or argocd_admin_password != ''
-
-- name: Install ArgoCD using Helm (without password config)
-  kubernetes.core.helm:
-    name: argocd
-    chart_ref: argo/argo-cd
-    release_namespace: argocd
-    create_namespace: false
-    kubeconfig: /etc/kubernetes/admin.conf
-    values:
-      server:
-        service:
-          type: "{{ argocd_server_service_type | default('ClusterIP') }}"
-  when: argocd_admin_password is not defined or argocd_admin_password == ''
+  shell: |
+    helm upgrade --install argocd argo/argo-cd \
+      --namespace argocd \
+      --set server.service.type={{ argocd_server_service_type | default('ClusterIP') }}
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  register: helm_install_result
+  changed_when: "'has been upgraded' in helm_install_result.stdout or 'has been installed' in helm_install_result.stdout"
 
 - name: Wait for ArgoCD API server deployment
-  kubernetes.core.k8s_info:
-    kind: Deployment
-    namespace: argocd
-    name: argocd-server
-    kubeconfig: /etc/kubernetes/admin.conf
-  register: argocd_server_deployment
-  until: argocd_server_deployment.resources[0].status.replicas == argocd_server_deployment.resources[0].status.readyReplicas | default(0)
-  retries: 30
-  delay: 10
+  shell: kubectl rollout status deployment/argocd-server -n argocd --timeout=5m
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  changed_when: false
 
 - name: Display ArgoCD access information
   debug:
