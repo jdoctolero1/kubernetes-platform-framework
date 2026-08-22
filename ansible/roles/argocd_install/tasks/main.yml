@@ -4,12 +4,14 @@
   shell: kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
   environment:
     KUBECONFIG: /etc/kubernetes/admin.conf
+  become: yes
   changed_when: false
 
 - name: Add ArgoCD Helm repository
   shell: helm repo add argo https://argoproj.github.io/argo-helm && helm repo update
   environment:
     KUBECONFIG: /etc/kubernetes/admin.conf
+  become: yes
   changed_when: false
 
 - name: Install ArgoCD using Helm
@@ -19,6 +21,7 @@
       --set server.service.type={{ argocd_server_service_type | default('ClusterIP') }}
   environment:
     KUBECONFIG: /etc/kubernetes/admin.conf
+  become: yes
   register: helm_install_result
   changed_when: "'has been upgraded' in helm_install_result.stdout or 'has been installed' in helm_install_result.stdout"
 
@@ -26,6 +29,7 @@
   shell: kubectl rollout status deployment/argocd-server -n argocd --timeout=5m
   environment:
     KUBECONFIG: /etc/kubernetes/admin.conf
+  become: yes
   changed_when: false
 
 - name: Display ArgoCD access information
